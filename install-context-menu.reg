@@ -5,3 +5,4 @@ Windows Registry Editor Version 5.00
 
 [HKEY_CURRENT_USER\Software\Classes\SystemFileAssociations\.html\shell\ConvertToNoteHTML\command]
 @="python \"D:\\typora-custom\\convert-to-note-html.py\" \"%1\""
+bin

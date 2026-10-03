@@ -1,3 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+/* Latin Modern Mono Light (used by h6), bundled in ./note/ */
+@font-face {
+    font-family: 'Latin Modern Mono Light';
+    src: url('./note/lmmonolt10-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Latin Modern Mono Light';
+    src: url('./note/lmmonolt10-oblique-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'Latin Modern Mono Light';
+    src: url('./note/lmmonolt10-bold-webfont.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Latin Modern Mono Light';
+    src: url('./note/lmmonolt10-boldoblique-webfont.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+}
+
 :root {
     --side-bar-bg-color: white;
     --window-border: none;
@@ -7,8 +35,6 @@
     --item-hover-text-color: black;
     --control-text-color: #555;
 }
-
-@import url('https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 html {
     font-size: 16px !important;

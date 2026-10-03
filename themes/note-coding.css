@@ -1,0 +1,73 @@
+/* note-coding: note.css正文样式 + 低调的代码编辑区 */
+@import url("note.css");
+
+/* 只覆盖 fenced code；正文、标题、表格、脚注等均继承 note.css */
+.md-fences, .md-fences code {
+    font-family: Consolas, "Cascadia Code", "Courier New", monospace;
+}
+
+.md-fences,
+.md-fences.md-fences-with-lineno {
+    border: 1px solid #e2e2e2;
+    background-color: #fafafa;
+    border-radius: 8px;
+}
+
+.md-fences {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    padding: 14px 16px 34px;
+    background-color: #fafafa;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+}
+
+/* 行号与正文左边界对齐，只保留间距和一条细分隔线 */
+#write > .md-fences.md-fences-with-lineno {
+    margin-left: 0;
+    width: auto;
+}
+
+.md-fences .CodeMirror-gutters {
+    background-color: transparent;
+    border-right: 1px solid #dedede;
+}
+
+.md-fences .CodeMirror-linenumber {
+    color: inherit;
+    padding-left: 8px;
+    padding-right: 5px;
+}
+
+/* 留白放在分隔线右侧，数字更贴近分隔线。 */
+.md-fences.md-fences-with-lineno .CodeMirror pre {
+    padding-left: 16px;
+}
+
+/* 语言常驻右下角；底部留白避免覆盖最后一行代码。 */
+#write .md-fences[lang]:not([lang=""])::after {
+    content: attr(lang);
+    position: absolute;
+    right: 16px;
+    bottom: 9px;
+    font: 11px/16px Consolas, "Courier New", monospace;
+    color: #888;
+    pointer-events: none;
+}
+
+/* 编辑语言时，原生输入框在同一位置显示，保留修改语言的功能。 */
+#write .md-fences .code-tooltip {
+    bottom: 6px;
+    right: 12px;
+    padding: 0;
+    background: #fafafa;
+    border: 0;
+    box-shadow: none;
+    color: #888;
+    font: 11px/16px Consolas, "Courier New", monospace;
+}
+
+#write .md-fences .code-tooltip .ty-input,
+#write .md-fences .code-tooltip input {
+    min-width: 80px;
+    text-align: right;
+}

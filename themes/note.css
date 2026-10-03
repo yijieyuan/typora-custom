@@ -12,12 +12,12 @@
 
 html {
     font-size: 16px !important;
-    font-family: "PT Serif", 'Times New Roman', 'SF Pro', Times, serif !important;
+    font-family: "PT Serif", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", 'Times New Roman', Times, serif !important;
 }
 
 body {
     font-size: 16px !important;
-    font-family: "PT Serif", 'Times New Roman', 'SF Pro', Times, serif !important;
+    font-family: "PT Serif", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", 'Times New Roman', Times, serif !important;
     overflow-x: visible !important;
 }
 
@@ -28,7 +28,7 @@ body.typora-export {
 }
 
 #write {
-    font-family: "PT Serif", 'Times New Roman', 'SF Pro', Times, serif;
+    font-family: "PT Serif", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", 'Times New Roman', Times, serif;
     line-height: 1.6em;
     max-width: 780px;
     width: 100%;
@@ -200,6 +200,10 @@ sup.md-footnote {
     font-weight: bold !important;
     border-radius: 0 !important;
 }
+
+/* Brackets around footnote labels */
+sup.md-footnote::before { content: "["; }
+sup.md-footnote::after { content: "]"; }
 
 /* ===== Footnote section: clean, no bullets ===== */
 .footnotes {

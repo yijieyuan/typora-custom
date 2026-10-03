@@ -1,0 +1,8 @@
+/* Kaggle: the "note" theme, with every image at 100% of the text width - the way the
+   Kaggle write-up page shows figures. Nothing else differs from note.css. */
+@import url("note.css");
+
+#write img {
+    width: 100% !important;
+    max-width: 100% !important;
+}

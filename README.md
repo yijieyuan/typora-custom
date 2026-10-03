@@ -7,6 +7,7 @@ This repo contains custom Typora themes and a post-processing script to export M
 - **academic.css** — Modified version of the public [Academic theme](https://theme.typora.io/theme/Academic/)
 - **note.css** — Template used to generate articles for my website
 - **note-coding.css** — note.css with a quieter style for code blocks (imports note.css)
+- **kaggle.css** — note.css with every image at full text width, like the Kaggle write-up page (imports note.css)
 
 ## Custom HTML Export
 

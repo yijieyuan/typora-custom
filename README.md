@@ -1,6 +1,6 @@
 # README
 
-This repo contains custom Typora themes and a post-processing script to export Markdown as HTML that looks the same on webpages as in Typora.
+This repo contains custom Typora themes and a post-processing script to export Markdown as HTML that looks close to Typora on webpages.
 
 ## Custom Themes
 

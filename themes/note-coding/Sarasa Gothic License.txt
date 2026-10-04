@@ -1,0 +1,13 @@
+SarasaMonoSC-Regular.woff2 and SarasaMonoSC-Bold.woff2 are Sarasa Mono SC
+from Sarasa Gothic v1.0.42 (https://github.com/be5invis/Sarasa-Gothic),
+converted from TTF to WOFF2 without other changes.
+
+Copyright (c) 2015-2025, Renzhi Li (aka. Belleve Invis, belleve@typeof.net).
+Portions Copyright (c) 2016 The Inter Project Authors.
+Portions Copyright (c) 2014-2021 Adobe Systems Incorporated (http://www.adobe.com/).
+Portions Copyright (c) 2012 Google Inc.
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+The full license text is available at:
+https://github.com/be5invis/Sarasa-Gothic/blob/main/LICENSE
+https://openfontlicense.org

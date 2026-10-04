@@ -1,10 +1,61 @@
 /* note-coding: note.css正文样式 + 低调的代码编辑区 */
 @import url("note.css");
 
-/* 只覆盖 fenced code；正文、标题、表格、脚注等均继承 note.css */
-.md-fences, .md-fences code {
-    font-family: Consolas, "Cascadia Code", "Courier New", monospace;
+/* Sarasa Mono SC (代码里的中文), bundled in ./note-coding/ */
+@font-face {
+    font-family: 'Sarasa Mono SC';
+    src: local('Sarasa Mono SC'), url('./note-coding/SarasaMonoSC-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
 }
+@font-face {
+    font-family: 'Sarasa Mono SC';
+    src: local('Sarasa Mono SC Bold'), url('./note-coding/SarasaMonoSC-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* Anthropic Serif Text (西文正文)，仅本机 ./note-coding/ 下有文件，不入库；缺失时回退 PT Serif */
+@font-face {
+    font-family: 'Anthropic Serif Text';
+    src: url('./note-coding/AnthropicSerif-Text-Regular-Static.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Anthropic Serif Text';
+    src: url('./note-coding/AnthropicSerif-Text-RegularItalic-Static.otf') format('opentype');
+    font-weight: normal;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'Anthropic Serif Text';
+    src: url('./note-coding/AnthropicSerif-Text-Bold-Static.otf') format('opentype');
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Anthropic Serif Text';
+    src: url('./note-coding/AnthropicSerif-Text-BoldItalic-Static.otf') format('opentype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+/* 正文字体：西文首选 Anthropic Serif Text，回退 PT Serif；中文思源宋体（Noto Serif SC / Source Han Serif SC） */
+html, body {
+    font-family: "Anthropic Serif Text", "PT Serif", "Noto Serif SC", "Source Han Serif SC", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", 'Times New Roman', Times, serif !important;
+}
+
+#write {
+    font-family: "Anthropic Serif Text", "PT Serif", "Noto Serif SC", "Source Han Serif SC", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", 'Times New Roman', Times, serif;
+}
+
+/* 代码字体：西文 Consolas，中文 Sarasa Mono SC（行内代码与 fenced code 一致） */
+pre, code, .md-fences, .md-fences code {
+    font-family: Consolas, "Cascadia Code", "Sarasa Mono SC", "Courier New", monospace;
+}
+
+/* 以下只覆盖 fenced code；标题、表格、脚注等均继承 note.css */
 
 .md-fences,
 .md-fences.md-fences-with-lineno {

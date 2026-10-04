@@ -1,17 +1,31 @@
 /* note-coding: note.css正文样式 + 低调的代码编辑区 */
 @import url("note.css");
 
-/* Sarasa Mono SC (代码里的中文), bundled in ./note-coding/ */
+/* Sarasa Mono SC (代码里的中文), bundled in ./note-coding/
+   unicode-range 限定为中日韩字符和全角标点：没有 Consolas 的系统（如 macOS）上，
+   西文也不会落到更纱的窄体字母上，而是继续回退到后面的西文等宽字体。 */
 @font-face {
     font-family: 'Sarasa Mono SC';
     src: local('Sarasa Mono SC'), url('./note-coding/SarasaMonoSC-Regular.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
+    unicode-range: U+2E80-2FDF, U+3000-33FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FE30-FE4F, U+FF00-FFEF, U+20000-2FA1F;
 }
 @font-face {
     font-family: 'Sarasa Mono SC';
     src: local('Sarasa Mono SC Bold'), url('./note-coding/SarasaMonoSC-Bold.woff2') format('woff2');
     font-weight: bold;
+    font-style: normal;
+    unicode-range: U+2E80-2FDF, U+3000-33FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FE30-FE4F, U+FF00-FFEF, U+20000-2FA1F;
+}
+
+/* Inconsolata (没有 Consolas 的系统上的代码西文，如 macOS), bundled in ./note-coding/
+   可变字体；代码处用 font-stretch: 112.5% 把字宽拉到和 Consolas 一样 (0.55em)。 */
+@font-face {
+    font-family: 'Inconsolata';
+    src: url('./note-coding/Inconsolata-VF.woff2') format('woff2');
+    font-weight: 200 900;
+    font-stretch: 50% 200%;
     font-style: normal;
 }
 
@@ -50,9 +64,10 @@ html, body {
     font-family: "Anthropic Serif Text", "PT Serif", "Noto Serif SC", "Source Han Serif SC", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", 'Times New Roman', Times, serif;
 }
 
-/* 代码字体：西文 Consolas，中文 Sarasa Mono SC（行内代码与 fenced code 一致） */
+/* 代码字体：西文 Consolas（没有时用内置的 Inconsolata），中文 Sarasa Mono SC（行内代码与 fenced code 一致） */
 pre, code, .md-fences, .md-fences code {
-    font-family: Consolas, "Cascadia Code", "Sarasa Mono SC", "Courier New", monospace;
+    font-family: Consolas, "Cascadia Code", Inconsolata, "Sarasa Mono SC", "Courier New", monospace;
+    font-stretch: 112.5%;
 }
 
 /* 以下只覆盖 fenced code；标题、表格、脚注等均继承 note.css */
@@ -100,7 +115,8 @@ pre, code, .md-fences, .md-fences code {
     position: absolute;
     right: 16px;
     bottom: 9px;
-    font: 11px/16px Consolas, "Courier New", monospace;
+    font: 11px/16px Consolas, Inconsolata, "Courier New", monospace;
+    font-stretch: 112.5%;
     color: #888;
     pointer-events: none;
 }
@@ -114,7 +130,8 @@ pre, code, .md-fences, .md-fences code {
     border: 0;
     box-shadow: none;
     color: #888;
-    font: 11px/16px Consolas, "Courier New", monospace;
+    font: 11px/16px Consolas, Inconsolata, "Courier New", monospace;
+    font-stretch: 112.5%;
 }
 
 #write .md-fences .code-tooltip .ty-input,

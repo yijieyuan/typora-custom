@@ -248,8 +248,10 @@ p {
     text-align: justify;
 }
 
+/* 图片和表格都占满正文宽度；图注 (figcaption) 95%，比图片稍窄 */
 #write img {
-    max-width: 95%;
+    width: 100%;
+    max-width: 100%;
     height: auto;
     display: block;
     margin: 0 auto;
@@ -265,7 +267,7 @@ p {
     font-size: 0.85em;
     color: #444;
     margin: 1em auto 0 auto;
-    max-width: 90%;
+    max-width: 95%;
     text-align: justify;
     line-height: 1.5em;
 }

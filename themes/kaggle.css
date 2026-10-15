@@ -1,5 +1,6 @@
 /* Kaggle: the "note" theme, with every image at 100% of the text width - the way the
-   Kaggle write-up page shows figures. Nothing else differs from note.css. */
+   Kaggle write-up page shows figures. note.css now does the same, so this only forces it
+   with !important (also over an <img width="..."> in the Markdown). */
 @import url("note.css");
 
 #write img {

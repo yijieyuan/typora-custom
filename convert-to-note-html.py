@@ -8,6 +8,7 @@ Post-process Typora exported HTML.
   6. If Typora exported empty footnotes, rebuild from .md source
   7. Fix overflow, width, padding, font-size conflicts
   8. Merge adjacent footnotes into [1, Q1] format
+  9. Add the theme's fonts (served by the website), drop the local @import, open external links in a new tab
 
 Usage: python convert-to-note-html.py input.html [output.html]
 """
@@ -15,6 +16,12 @@ import sys
 import re
 import os
 import glob
+
+# Typora's HTML export leaves out the theme's @font-face rules, so the bundled fonts never
+# reach the web page. The script copies them from themes/note.css with their ./note/ urls
+# pointed at FONT_URL, where the website serves a copy of themes/note/.
+NOTE_CSS = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'themes', 'note.css')
+FONT_URL = os.environ.get('NOTE_FONT_URL', '/assets/fonts/note/')
 
 
 def find_md(html_path):
@@ -65,6 +72,7 @@ def fix_html(input_path, output_path=None):
 
     # Clean up any previous convert runs (make idempotent)
     html = re.sub(r'<style id="style-fix">.*?</style>', '', html, flags=re.DOTALL)
+    html = re.sub(r'<style id="style-fonts">.*?</style>\s*', '', html, flags=re.DOTALL)
     html = re.sub(r'<script>\s*document\.addEventListener.*?</script>', '', html, flags=re.DOTALL)
     html = re.sub(r' data-tooltip="[^"]*"', '', html)
 
@@ -137,8 +145,14 @@ def fix_html(input_path, output_path=None):
     if fn_defs:
         html = _add_tooltips(html, fn_defs)
 
-    # --- 5. Inject CSS + JS ---
-    html = html.replace('</head>', _get_css_js() + '\n</head>')
+    # --- 5. Inject fonts, CSS + JS ---
+    html = re.sub(r"@font-face\s*\{[^}]*\./note/[^}]*\}", '', html)
+    # A theme that @imports another (note-coding.css) is exported with that file inlined plus a
+    # leftover @import of the local themes folder, which a web page cannot load
+    html = re.sub(r'@import url\(["\']?file://[^)]*\);?\n?', '', html)
+    # The article is shown in an iframe, and most sites refuse to load inside one
+    html = re.sub(r"<a href='(https?://[^']*)'(?![^>]*target=)", r"<a href='\1' target='_blank' rel='noopener'", html)
+    html = html.replace('</head>', _get_font_faces() + _get_css_js() + '\n</head>')
 
     # --- 6. Remove CSS ::before/::after brackets (script adds them in HTML) ---
     html = re.sub(r"sup\.md-footnote::before\s*\{[^}]*\}", '', html)
@@ -249,6 +263,19 @@ def _add_tooltips(html, fn_defs):
             return full.replace("<a ", f'<a data-tooltip="{tooltip}" ', 1)
         return full
     return re.sub(r"<a href='[^']*' class='fn-ref'>(\w+)</a>", add_tip, html)
+
+
+def _get_font_faces():
+    """The theme's @font-face rules, with urls pointing at FONT_URL"""
+    try:
+        with open(NOTE_CSS, 'r', encoding='utf-8') as f:
+            css = f.read()
+    except OSError:
+        print(f"Warning: {NOTE_CSS} not found, fonts not added")
+        return ''
+    faces = [re.sub(r"url\((['\"]?)\./note/", lambda m: f"url({m.group(1)}{FONT_URL}", face)
+             for face in re.findall(r'@font-face\s*\{[^}]*\}', css)]
+    return '\n<style id="style-fonts">\n' + '\n'.join(faces) + '\n</style>' if faces else ''
 
 
 def _get_css_js():

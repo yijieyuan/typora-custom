@@ -26,7 +26,7 @@
     font-style: italic;
 }
 
-/* Latin Modern Mono Light (used by h6), bundled in ./note/LatinModernMono/ */
+/* Latin Modern Mono Light, bundled in ./note/LatinModernMono/ (no longer used by h6) */
 @font-face {
     font-family: 'Latin Modern Mono Light';
     src: url('./note/LatinModernMono/lmmonolt10-regular-webfont.woff') format('woff');
@@ -216,12 +216,12 @@ h5 {
     font-size: 1.0em;
 }
 
-/* h6 (日期行) 用打字机字体 */
+/* h6 (日期行) 用正文的 Literata 斜体，灰色，像书里的署名 */
 h6 {
-    font-family: 'Latin Modern Mono Light', "Latin Modern Mono", "Courier New", monospace !important;
-    font-style: normal !important;
+    font-family: "Literata", "Source Serif 4", "PT Serif", "Noto Serif SC", Georgia, serif !important;
+    font-style: italic !important;
     font-weight: normal !important;
-    font-size: 0.85em;
+    font-size: 0.9em;
     text-align: center;
     color: #6b7280;
     display: flex;

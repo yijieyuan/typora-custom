@@ -10,7 +10,9 @@ Post-process Typora exported HTML.
   8. Merge adjacent footnotes into [1, Q1] format
   9. Add the theme's fonts (served by the website), drop the local @import, open external links in a new tab
 
-Usage: python convert-to-note-html.py input.html [output.html]
+Usage: python convert-to-note-html.py input.html [output.html] [--md source.md]
+  Typora (Preferences > Export > HTML > run command after export):
+    /usr/bin/python3 "<path>/convert-to-note-html.py" "${outputPath}" --md "${currentPath}"
 """
 import sys
 import re
@@ -24,10 +26,10 @@ NOTE_CSS = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'themes', 'n
 FONT_URL = os.environ.get('NOTE_FONT_URL', '/assets/fonts/note/')
 
 
-def find_md(html_path):
-    """Find the .md source file"""
-    md_path = re.sub(r'\.html$', '.md', html_path)
-    candidates = [md_path] + glob.glob(os.path.join(os.path.dirname(html_path), '*.md'))
+def find_md(html_path, md_path=None):
+    """Find the .md source file: the one given, else <name>.md, else any .md with footnotes beside the html"""
+    candidates = [md_path] if md_path else []
+    candidates += [re.sub(r'\.html$', '.md', html_path)] + glob.glob(os.path.join(os.path.dirname(html_path), '*.md'))
     for c in candidates:
         try:
             with open(c, 'r', encoding='utf-8') as f:
@@ -63,7 +65,7 @@ def parse_fn_refs_from_md(md):
     return seen
 
 
-def fix_html(input_path, output_path=None):
+def fix_html(input_path, output_path=None, md_path=None):
     if output_path is None:
         output_path = input_path
 
@@ -76,7 +78,7 @@ def fix_html(input_path, output_path=None):
     html = re.sub(r'<script>\s*document\.addEventListener.*?</script>', '', html, flags=re.DOTALL)
     html = re.sub(r' data-tooltip="[^"]*"', '', html)
 
-    md = find_md(input_path)
+    md = find_md(input_path, md_path)
     fn_defs = parse_fn_defs(md) if md else {}
     fn_refs = parse_fn_refs_from_md(md) if md else []
     fn_map = {i + 1: label for i, label in enumerate(fn_refs)}
@@ -380,7 +382,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 if __name__ == '__main__':
     args = [a for a in sys.argv[1:] if a.strip()]
+    md_path = None
+    if '--md' in args:
+        i = args.index('--md')
+        md_path = args[i + 1] if i + 1 < len(args) else None
+        del args[i:i + 2]
     if args:
-        fix_html(args[0], args[1] if len(args) > 1 else None)
+        fix_html(args[0], args[1] if len(args) > 1 else None, md_path)
     else:
-        print("Usage: python convert-to-note-html.py input.html [output.html]")
+        print("Usage: python convert-to-note-html.py input.html [output.html] [--md source.md]")

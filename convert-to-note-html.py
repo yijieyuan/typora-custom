@@ -149,7 +149,7 @@ def fix_html(input_path, output_path=None, md_path=None):
 
     # --- 5. Inject fonts, CSS + JS ---
     html = re.sub(r"@font-face\s*\{[^}]*\./note/[^}]*\}", '', html)
-    # A theme that @imports another (note-coding.css) is exported with that file inlined plus a
+    # A theme that @imports another (kaggle.css) is exported with that file inlined plus a
     # leftover @import of the local themes folder, which a web page cannot load
     html = re.sub(r'@import url\(["\']?file://[^)]*\);?\n?', '', html)
     # The article is shown in an iframe, and most sites refuse to load inside one

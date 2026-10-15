@@ -27,4 +27,4 @@ Fonts are bundled in `themes/note/`, one subfolder per font with its license: Li
      2. Turn on "Run command" under "After Export" and set it to: `python "path/to/convert-to-note-html.py" "${outputPath}" --md "${currentPath}"` (on the Mac, `/usr/bin/python3` for `python`)
      3. Now **File → Export → HTML** will automatically post-process the output. For the website, save it as `main.html` in the article's folder; after the first time, **File → Export → Export and Overwrite with Previous** does it in one click
 
-   The script also adds the theme's fonts, which Typora's export leaves out, pointing at `/assets/fonts/note/` on the website (a copy of `themes/note/`; set `NOTE_FONT_URL` to change it).
+   The script also adds the theme's fonts, which Typora's export leaves out, pointing at `/assets/fonts/<Font>/` on the website (the same one-folder-per-font layout as `themes/note/`; set `NOTE_FONT_URL` to change it).

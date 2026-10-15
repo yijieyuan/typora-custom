@@ -21,9 +21,9 @@ import glob
 
 # Typora's HTML export leaves out the theme's @font-face rules, so the bundled fonts never
 # reach the web page. The script copies them from themes/note.css with their ./note/ urls
-# pointed at FONT_URL, where the website serves a copy of themes/note/.
+# pointed at FONT_URL, where the website keeps the same font folders (assets/fonts/<Font>/).
 NOTE_CSS = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'themes', 'note.css')
-FONT_URL = os.environ.get('NOTE_FONT_URL', '/assets/fonts/note/')
+FONT_URL = os.environ.get('NOTE_FONT_URL', '/assets/fonts/')
 
 
 def find_md(html_path, md_path=None):

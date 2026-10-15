@@ -6,8 +6,10 @@ This repo contains custom Typora themes and a post-processing script to export M
 
 - **academic.css** — Modified version of the public [Academic theme](https://theme.typora.io/theme/Academic/)
 - **note.css** — Template used to generate articles for my website
-- **note-coding.css** — note.css with a quieter style for code blocks (imports note.css)
+- **note-coding.css** — note.css with Literata body text, JetBrains Mono code and a quieter style for code blocks (imports note.css)
 - **kaggle.css** — note.css with every image at full text width, like the Kaggle write-up page (imports note.css)
+
+Fonts are bundled next to each theme, one subfolder per font with its license: `themes/note/` (PT Serif, Latin Modern Mono) and `themes/note-coding/` (Literata, Source Serif 4, Noto Serif SC, JetBrains Mono, Sarasa Mono SC).
 
 ## Custom HTML Export
 

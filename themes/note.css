@@ -1,27 +1,51 @@
-@import url('https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+/* PT Serif (西文正文), bundled in ./note/PTSerif/ */
+@font-face {
+    font-family: 'PT Serif';
+    src: url('./note/PTSerif/PTSerif-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'PT Serif';
+    src: url('./note/PTSerif/PTSerif-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'PT Serif';
+    src: url('./note/PTSerif/PTSerif-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'PT Serif';
+    src: url('./note/PTSerif/PTSerif-BoldItalic.woff2') format('woff2');
+    font-weight: bold;
+    font-style: italic;
+}
 
-/* Latin Modern Mono Light (used by h6), bundled in ./note/ */
+/* Latin Modern Mono Light (used by h6), bundled in ./note/LatinModernMono/ */
 @font-face {
     font-family: 'Latin Modern Mono Light';
-    src: url('./note/lmmonolt10-regular-webfont.woff') format('woff');
+    src: url('./note/LatinModernMono/lmmonolt10-regular-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
 @font-face {
     font-family: 'Latin Modern Mono Light';
-    src: url('./note/lmmonolt10-oblique-webfont.woff') format('woff');
+    src: url('./note/LatinModernMono/lmmonolt10-oblique-webfont.woff') format('woff');
     font-weight: normal;
     font-style: italic;
 }
 @font-face {
     font-family: 'Latin Modern Mono Light';
-    src: url('./note/lmmonolt10-bold-webfont.woff') format('woff');
+    src: url('./note/LatinModernMono/lmmonolt10-bold-webfont.woff') format('woff');
     font-weight: bold;
     font-style: normal;
 }
 @font-face {
     font-family: 'Latin Modern Mono Light';
-    src: url('./note/lmmonolt10-boldoblique-webfont.woff') format('woff');
+    src: url('./note/LatinModernMono/lmmonolt10-boldoblique-webfont.woff') format('woff');
     font-weight: bold;
     font-style: italic;
 }

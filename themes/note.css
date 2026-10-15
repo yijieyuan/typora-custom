@@ -1,4 +1,6 @@
-/* PT Serif (西文正文), bundled in ./note/PTSerif/ */
+/* 字体全部内置在 ./note/ 下，每种字体一个子目录（含许可证）。 */
+
+/* PT Serif (西文正文第三选择), bundled in ./note/PTSerif/ */
 @font-face {
     font-family: 'PT Serif';
     src: url('./note/PTSerif/PTSerif-Regular.woff2') format('woff2');
@@ -50,6 +52,73 @@
     font-style: italic;
 }
 
+/* Literata (西文正文首选)，可变字体，带光学尺寸轴 */
+@font-face {
+    font-family: 'Literata';
+    src: url('./note/Literata/Literata-VF.woff2') format('woff2');
+    font-weight: 200 900;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Literata';
+    src: url('./note/Literata/Literata-Italic-VF.woff2') format('woff2');
+    font-weight: 200 900;
+    font-style: italic;
+}
+
+/* Source Serif 4 (西文正文次选)，可变字体，带光学尺寸轴 */
+@font-face {
+    font-family: 'Source Serif 4';
+    src: url('./note/SourceSerif4/SourceSerif4-VF.woff2') format('woff2');
+    font-weight: 200 900;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Source Serif 4';
+    src: url('./note/SourceSerif4/SourceSerif4-Italic-VF.woff2') format('woff2');
+    font-weight: 200 900;
+    font-style: italic;
+}
+
+/* Noto Serif SC (中文正文，即思源宋体)，可变字体；unicode-range 限定为中日韩字符和全角标点 */
+@font-face {
+    font-family: 'Noto Serif SC';
+    src: local('Noto Serif SC'), url('./note/NotoSerifSC/NotoSerifSC-VF.woff2') format('woff2');
+    font-weight: 200 900;
+    font-style: normal;
+    unicode-range: U+2E80-2FDF, U+3000-33FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FE30-FE4F, U+FF00-FFEF, U+20000-2FA1F;
+}
+
+/* JetBrains Mono (代码西文)，可变字体 */
+@font-face {
+    font-family: 'JetBrains Mono';
+    src: url('./note/JetBrainsMono/JetBrainsMono-VF.woff2') format('woff2');
+    font-weight: 100 800;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'JetBrains Mono';
+    src: url('./note/JetBrainsMono/JetBrainsMono-Italic-VF.woff2') format('woff2');
+    font-weight: 100 800;
+    font-style: italic;
+}
+
+/* Sarasa Mono SC (代码里的中文)；unicode-range 限定为中日韩字符和全角标点，西文仍用 JetBrains Mono */
+@font-face {
+    font-family: 'Sarasa Mono SC';
+    src: local('Sarasa Mono SC'), url('./note/SarasaMonoSC/SarasaMonoSC-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    unicode-range: U+2E80-2FDF, U+3000-33FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FE30-FE4F, U+FF00-FFEF, U+20000-2FA1F;
+}
+@font-face {
+    font-family: 'Sarasa Mono SC';
+    src: local('Sarasa Mono SC Bold'), url('./note/SarasaMonoSC/SarasaMonoSC-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    unicode-range: U+2E80-2FDF, U+3000-33FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FE30-FE4F, U+FF00-FFEF, U+20000-2FA1F;
+}
+
 :root {
     --side-bar-bg-color: white;
     --window-border: none;
@@ -60,14 +129,15 @@
     --control-text-color: #555;
 }
 
+/* 正文字体：西文 Literata，次选 Source Serif 4，再 PT Serif；中文思源宋体 */
 html {
     font-size: 16px !important;
-    font-family: "PT Serif", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", 'Times New Roman', Times, serif !important;
+    font-family: "Literata", "Source Serif 4", "PT Serif", "Noto Serif SC", "Source Han Serif SC", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", 'Times New Roman', Times, serif !important;
 }
 
 body {
     font-size: 16px !important;
-    font-family: "PT Serif", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", 'Times New Roman', Times, serif !important;
+    font-family: "Literata", "Source Serif 4", "PT Serif", "Noto Serif SC", "Source Han Serif SC", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", 'Times New Roman', Times, serif !important;
     overflow-x: visible !important;
 }
 
@@ -78,7 +148,7 @@ body.typora-export {
 }
 
 #write {
-    font-family: "PT Serif", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", 'Times New Roman', Times, serif;
+    font-family: "Literata", "Source Serif 4", "PT Serif", "Noto Serif SC", "Source Han Serif SC", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", 'Times New Roman', Times, serif;
     line-height: 1.6em;
     max-width: 780px;
     width: 100%;
@@ -146,8 +216,9 @@ h5 {
     font-size: 1.0em;
 }
 
+/* h6 (日期行) 用打字机字体 */
 h6 {
-    font-family: 'Latin Modern Mono Light', "Latin Modern Mono", monospace !important;
+    font-family: 'Latin Modern Mono Light', "Latin Modern Mono", "Courier New", monospace !important;
     font-style: normal !important;
     font-weight: normal !important;
     font-size: 0.85em;
@@ -203,18 +274,17 @@ p {
     color: #222;
 }
 
-/* ===== Code: GitHub style ===== */
-pre, code {
-    font-family: Consolas, 'Courier New', monospace;
+/* ===== Code ===== */
+/* 代码字体：西文 JetBrains Mono，中文 Sarasa Mono SC（行内代码与 fenced code 一致） */
+pre, code, .md-fences, .md-fences code {
+    font-family: "JetBrains Mono", "Sarasa Mono SC", Consolas, Menlo, "Courier New", monospace;
 }
 
-.md-fences,
 code,
 tt {
     border: 1px solid #e7eaed;
     background-color: #f8f8f8;
     border-radius: 3px;
-    padding: 0;
     padding: 2px 4px 0px 4px;
     font-size: 0.9em;
 }
@@ -225,20 +295,73 @@ code {
     color: #c7254e;
 }
 
+/* fenced code：低调的编辑区 */
 .md-fences {
-    margin-bottom: 15px;
+    font-size: 0.9em;
     margin-top: 15px;
-    padding-top: 8px;
-    padding-bottom: 6px;
-    background-color: #f8f8f8;
-}
-
-.md-fences.md-fences-with-lineno {
-    border: none;
+    margin-bottom: 15px;
+    padding: 14px 16px 34px;
+    border: 1px solid #e2e2e2;
+    border-radius: 8px;
+    background-color: #fafafa;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
 }
 
 .CodeMirror-linenumber {
     color: #333;
+    min-width: 25px;
+}
+
+/* 行号与正文左边界对齐，只保留间距和一条细分隔线 */
+#write > .md-fences.md-fences-with-lineno {
+    margin-left: 0;
+    width: auto;
+    color: black;
+}
+
+.md-fences .CodeMirror-gutters {
+    background-color: transparent;
+    border-right: 1px solid #dedede;
+}
+
+.md-fences .CodeMirror-linenumber {
+    color: inherit;
+    padding-left: 8px;
+    padding-right: 5px;
+}
+
+/* 留白放在分隔线右侧，数字更贴近分隔线。 */
+.md-fences.md-fences-with-lineno .CodeMirror pre {
+    padding-left: 16px;
+}
+
+/* 语言常驻右下角；底部留白避免覆盖最后一行代码。 */
+#write .md-fences[lang]:not([lang=""])::after {
+    content: attr(lang);
+    position: absolute;
+    right: 16px;
+    bottom: 9px;
+    font: 11px/16px "JetBrains Mono", Consolas, Menlo, "Courier New", monospace;
+    color: #888;
+    pointer-events: none;
+}
+
+/* 编辑语言时，原生输入框在同一位置显示，保留修改语言的功能。 */
+#write .md-fences .code-tooltip {
+    bottom: 6px;
+    right: 12px;
+    padding: 0;
+    background: #fafafa;
+    border: 0;
+    box-shadow: none;
+    color: #888;
+    font: 11px/16px "JetBrains Mono", Consolas, Menlo, "Courier New", monospace;
+}
+
+#write .md-fences .code-tooltip .ty-input,
+#write .md-fences .code-tooltip input {
+    min-width: 80px;
+    text-align: right;
 }
 
 /* ===== Footnote inline ===== */
@@ -469,15 +592,6 @@ blockquote {
     padding: 0.25em 30px;
     margin-left: -32px;
     width: calc(100% + 32px);
-}
-
-#write > .md-fences-with-lineno {
-    margin-left: -33px;
-    color: black;
-}
-
-.CodeMirror-linenumber {
-    min-width: 25px;
 }
 
 .md-header {

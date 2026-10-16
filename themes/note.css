@@ -596,7 +596,7 @@ blockquote {
     width: calc(100% + 32px);
 }
 
-/* 侧注：> [!NOTE] 渲染成书里那种黑框，正文样式不变（不用引用块的斜体和左边线） */
+/* 侧注：> [!NOTE]（Design notes）和 > [!TIP]（Experiment notes）渲染成书里那种黑框，正文样式不变（不用引用块的斜体和左边线） */
 #write .md-alert,
 #write > .md-alert {
     font-style: normal;
@@ -620,6 +620,11 @@ blockquote {
 
 .md-alert-text-container[data-text="note"]::after {
     content: "Design notes & discussion";
+    text-transform: uppercase;
+}
+
+.md-alert-text-container[data-text="tip"]::after {
+    content: "Experiment notes & discussion";
     text-transform: uppercase;
 }
 

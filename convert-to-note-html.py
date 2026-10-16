@@ -8,7 +8,8 @@ Post-process Typora exported HTML.
   6. If Typora exported empty footnotes, rebuild from .md source
   7. Fix overflow, width, padding, font-size conflicts
   8. Merge adjacent footnotes into [1, Q1] format
-  9. Add the theme's fonts (served by the website), drop the local @import, open external links in a new tab
+  9. Add the theme's fonts (served by the website), drop the local @import, open external links in a new tab,
+     let wide display formulas scroll sideways
 
 Usage: python convert-to-note-html.py input.html [output.html] [--md source.md]
   Typora (Preferences > Export > HTML > run command after export):
@@ -72,10 +73,13 @@ def fix_html(input_path, output_path=None, md_path=None):
     with open(input_path, 'r', encoding='utf-8') as f:
         html = f.read()
 
-    # Clean up any previous convert runs (make idempotent)
-    html = re.sub(r'<style id="style-fix">.*?</style>', '', html, flags=re.DOTALL)
-    html = re.sub(r'<style id="style-fonts">.*?</style>\s*', '', html, flags=re.DOTALL)
-    html = re.sub(r'<script>\s*document\.addEventListener.*?</script>', '', html, flags=re.DOTALL)
+    # Clean up any previous convert runs (make idempotent): the injected blocks go,
+    # together with the space before them, and </head> gets back the single line
+    # break Typora puts before it, so a second run gives the same file as the first
+    html = re.sub(r'\s*<style id="style-fix">.*?</style>', '', html, flags=re.DOTALL)
+    html = re.sub(r'\s*<style id="style-fonts">.*?</style>', '', html, flags=re.DOTALL)
+    html = re.sub(r'\s*<script>\s*document\.addEventListener.*?</script>', '', html, flags=re.DOTALL)
+    html = re.sub(r'\s*</head>', '\n</head>', html, count=1)
     html = re.sub(r' data-tooltip="[^"]*"', '', html)
 
     md = find_md(input_path, md_path)
@@ -291,6 +295,8 @@ a.fn-ref:hover { text-decoration: none; }
 .footnote-line { margin-bottom: 0.8em; font-size: 0.88em; line-height: 1.6; color: #555; }
 .footnotes-area { padding-bottom: 0; margin-bottom: 0; margin-top: 1em; }
 #write { padding-bottom: 10px !important; }
+/* A display formula wider than the text column scrolls sideways instead of being cut off */
+#write .md-math-block { overflow-x: auto; overflow-y: hidden; }
 #fn-tip {
     display: none; position: fixed; z-index: 10000;
     background: #333; color: #fff; padding: 8px 12px; border-radius: 4px;

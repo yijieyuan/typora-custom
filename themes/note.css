@@ -596,6 +596,54 @@ blockquote {
     width: calc(100% + 32px);
 }
 
+/* 侧注：> [!NOTE] 渲染成书里那种黑框，正文样式不变（不用引用块的斜体和左边线） */
+#write .md-alert,
+#write > .md-alert {
+    font-style: normal;
+    color: inherit;
+    border: 1px solid #222;
+    border-radius: 0;
+    margin: 1.5em 0;
+    width: auto;
+    padding: 0.6em 1.2em;
+}
+
+/* 标签：把 "Note" 换成 "Design notes & discussion"，小型大写、黑色、字距稍宽。
+   Typora 编辑时用 ::after 的 content 显示标签，导出 HTML 时也读取这个值写进文字，两处一致。 */
+#write .md-alert-text {
+    color: #222;
+    font-size: 0.8em;
+    font-weight: bold;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.md-alert-text-container[data-text="note"]::after {
+    content: "Design notes & discussion";
+    text-transform: uppercase;
+}
+
+#write .md-alert-text svg {
+    display: none;
+}
+
+/* 框内间距：标题到列表只比条目之间稍大，列表靠左一些 */
+#write .md-alert > p:first-child {
+    margin-top: 0.3em;
+    margin-bottom: 0.5em;
+}
+
+#write .md-alert ul,
+#write .md-alert ol {
+    margin-top: 0;
+    margin-bottom: 0.3em;
+    padding-left: 1.2em;
+}
+
+#write .md-alert li + li {
+    margin-top: 0.3em;
+}
+
 .md-header {
     font-size: inherit !important;
 }

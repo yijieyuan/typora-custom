@@ -1,7 +1,8 @@
 """
 Post-process Typora exported HTML.
   1. Restore footnote labels (Q1/Q2 instead of 1/2/3)
-  2. Split footnotes into Notes + References sections
+  2. Split footnotes into Notes (in order of appearance) + References (by number),
+     with Markdown links in them turned into links
   3. Q&A question and answer on separate lines
   4. Footnote labels clickable (jump back to text)
   5. Hover/tap tooltip on footnote references
@@ -17,6 +18,7 @@ Usage: python convert-to-note-html.py input.html [output.html] [--md source.md]
 """
 import sys
 import re
+import html as htmllib
 import os
 import glob
 
@@ -28,9 +30,13 @@ FONT_URL = os.environ.get('NOTE_FONT_URL', '/assets/fonts/')
 
 
 def find_md(html_path, md_path=None):
-    """Find the .md source file: the one given, else <name>.md, else any .md with footnotes beside the html"""
-    candidates = [md_path] if md_path else []
-    candidates += [re.sub(r'\.html$', '.md', html_path)] + glob.glob(os.path.join(os.path.dirname(html_path), '*.md'))
+    """Find the .md source file. When it is given (--md), only that file: an article
+    without footnotes must not pick up another .md's. Otherwise <name>.md, else any
+    .md with footnotes beside the html."""
+    if md_path:
+        candidates = [md_path]
+    else:
+        candidates = [re.sub(r'\.html$', '.md', html_path)] + glob.glob(os.path.join(os.path.dirname(html_path), '*.md'))
     for c in candidates:
         try:
             with open(c, 'r', encoding='utf-8') as f:
@@ -46,7 +52,8 @@ def parse_fn_defs(md):
     """Extract footnote definitions from markdown"""
     defs = {}
     for m in re.finditer(r'^\[\^(\w+)\]:\s*(.+?)(?=\n\[\^|\n\n|\Z)', md, re.MULTILINE | re.DOTALL):
-        content = m.group(2).strip()
+        content = htmllib.escape(m.group(2).strip(), quote=False)
+        content = re.sub(r'\[([^\]]+)\]\((https?://[^)\s]+)\)', r"<a href='\2' target='_blank'>\1</a>", content)
         content = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', content)
         content = re.sub(r'\*(.+?)\*', r'<em>\1</em>', content)
         content = re.sub(r'`([^`]+)`', r'<code>\1</code>', content)
@@ -116,7 +123,9 @@ def fix_html(input_path, output_path=None, md_path=None):
                 line = re.sub(r'</strong>\s*', '</strong><br>', line, count=1)
                 qa.append(line)
             else:
-                refs.append(line)
+                refs.append((int(label), line))
+        # Notes keep the order they appear in; References go by number
+        refs = [line for _, line in sorted(refs, key=lambda r: r[0])]
 
     if qa or refs:
         new_fn = "<div class='footnotes-area'>"

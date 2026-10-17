@@ -80,6 +80,20 @@
     font-style: italic;
 }
 
+/* Google Sans (图中文字)，可变字体 */
+@font-face {
+    font-family: 'Google Sans';
+    src: url('./note/GoogleSans/GoogleSans-VF.woff2') format('woff2');
+    font-weight: 400 700;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Google Sans';
+    src: url('./note/GoogleSans/GoogleSans-Italic-VF.woff2') format('woff2');
+    font-weight: 400 700;
+    font-style: italic;
+}
+
 /* Noto Serif SC (中文正文，即思源宋体)，可变字体；unicode-range 限定为中日韩字符和全角标点 */
 @font-face {
     font-family: 'Noto Serif SC';
@@ -155,6 +169,11 @@ body.typora-export {
     margin: 0 auto;
     padding: 0 5px;
     box-sizing: border-box;
+}
+
+/* 公式：Literata 字面大，MathJax 按 em 定字号，放大以与正文协调 */
+#write mjx-container {
+    font-size: 120% !important;
 }
 
 content {
@@ -596,7 +615,7 @@ blockquote {
     width: calc(100% + 32px);
 }
 
-/* 侧注：> [!NOTE]（Design notes）和 > [!TIP]（Experiment notes）渲染成书里那种黑框，正文样式不变（不用引用块的斜体和左边线） */
+/* 侧注：> [!NOTE]（Notes）和 > [!TIP]（Experiment notes）渲染成书里那种黑框，正文样式不变（不用引用块的斜体和左边线） */
 #write .md-alert,
 #write > .md-alert {
     font-style: normal;
@@ -608,18 +627,18 @@ blockquote {
     padding: 0.6em 1.2em;
 }
 
-/* 标签：把 "Note" 换成 "Design notes & discussion"，小型大写、黑色、字距稍宽。
+/* 标签：NOTE 标签为 "Notes"，TIP 标签换成 "Experiment notes & discussion"，与正文同字号、大写、黑色、字距稍宽。
    Typora 编辑时用 ::after 的 content 显示标签，导出 HTML 时也读取这个值写进文字，两处一致。 */
 #write .md-alert-text {
     color: #222;
-    font-size: 0.8em;
+    font-size: 1em;
     font-weight: bold;
     letter-spacing: 0.08em;
     text-transform: uppercase;
 }
 
 .md-alert-text-container[data-text="note"]::after {
-    content: "Design notes & discussion";
+    content: "Notes";
     text-transform: uppercase;
 }
 
@@ -632,21 +651,44 @@ blockquote {
     display: none;
 }
 
-/* 框内间距：标题到列表只比条目之间稍大，列表靠左一些 */
+/* 框内间距：标题到正文、段落之间、列表条目之间都用同一个间距 --alert-gap；列表靠左一些。
+   标题单独占一行（块级），它和所在段落的下边距会合并，所以标题后面接段落或列表时间距一样。 */
+#write .md-alert {
+    --alert-gap: 0.4em;
+}
+
+#write .md-alert .md-alert-text-container {
+    display: block;
+    margin-bottom: var(--alert-gap);
+}
+
+#write .md-alert .md-alert-text-container + br,
+#write .md-alert .md-alert-text + .md-softbreak {
+    display: none;
+}
+
+#write .md-alert > p {
+    margin-top: 0;
+    margin-bottom: var(--alert-gap);
+}
+
 #write .md-alert > p:first-child {
     margin-top: 0.3em;
-    margin-bottom: 0.5em;
 }
 
 #write .md-alert ul,
 #write .md-alert ol {
     margin-top: 0;
-    margin-bottom: 0.3em;
+    margin-bottom: var(--alert-gap);
     padding-left: 1.2em;
 }
 
+#write .md-alert li > p {
+    margin: 0;
+}
+
 #write .md-alert li + li {
-    margin-top: 0.3em;
+    margin-top: var(--alert-gap);
 }
 
 .md-header {

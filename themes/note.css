@@ -282,6 +282,17 @@ p {
     padding: 0;
 }
 
+/* 紧跟在段落后面的表格（如「复杂度填空」标签下的表格）用普通段落间距 */
+#write p + figure.md-table-fig {
+    margin-top: 1em;
+}
+
+/* 表头全空时隐藏表头行（Typora 编辑器里单元格内容包在 .td-span 中，导出的 HTML 里直接在 th 中） */
+#write thead:has(.td-span):not(:has(.td-span:not(:empty))),
+#write thead:not(:has(.td-span)):not(:has(th:not(:empty))) {
+    display: none;
+}
+
 #write figcaption {
     font-size: 0.85em;
     color: #444;
@@ -299,6 +310,9 @@ p {
 /* 代码字体：西文 JetBrains Mono，中文 Sarasa Mono SC（行内代码与 fenced code 一致） */
 pre, code, .md-fences, .md-fences code {
     font-family: "JetBrains Mono", "Sarasa Mono SC", Consolas, Menlo, "Courier New", monospace;
+    /* 关闭连字，!= -> 等符号按原样显示 */
+    font-variant-ligatures: none;
+    font-feature-settings: "liga" 0, "calt" 0;
 }
 
 code,
@@ -437,6 +451,17 @@ sup.md-footnote::after { content: "]"; }
     margin-bottom: 0.6em;
 }
 
+/* Same divider as the browser default the website shows. */
+hr {
+    height: 0;
+    margin: 0.5em auto;
+    background: none;
+    color: gray;
+    border-style: inset;
+    border-width: 1px;
+    border-color: gray;
+}
+
 .footnotes-area hr {
     display: none;
 }
@@ -473,7 +498,8 @@ body.typora-export {
     box-sizing: border-box;
 }
 
-.typora-export p,
+/* 段落自带 style 对齐（如居中的图注 <p style="text-align: center;">）时不强制两端对齐 */
+.typora-export p:not([style*="text-align"]),
 .typora-export li {
     text-align: justify !important;
     white-space: normal !important;
@@ -518,6 +544,17 @@ a.md-toc-inner {
 
 mark {
     background: #fff387;
+}
+
+/* 表格里的高亮当作填空答案：默认透明，鼠标移到格子上或编辑时正常显示 */
+td mark {
+    color: transparent;
+    background: transparent;
+}
+
+td:hover mark,
+td .md-expand mark {
+    color: inherit;
 }
 
 table {

@@ -8,7 +8,7 @@ This repo contains custom Typora themes and a post-processing script to export M
 - **note.css** — Template used to generate articles for my website: Literata body text, JetBrains Mono code and a quiet style for code blocks
 - **kaggle.css** — note.css with every image at full text width, like the Kaggle write-up page (imports note.css)
 
-Fonts are bundled in `themes/note/`, one subfolder per font with its license: Literata, Source Serif 4, PT Serif, Noto Serif SC, JetBrains Mono, Sarasa Mono SC and Latin Modern Mono.
+Fonts are bundled in `themes/note/`, one subfolder per font with its license: Literata, Source Serif 4, PT Serif, Noto Serif SC, JetBrains Mono, Sarasa Mono SC, Latin Modern Mono and Google Sans.
 
 ## Custom HTML Export
 

@@ -11,6 +11,8 @@ Post-process Typora exported HTML.
   8. Merge adjacent footnotes into [1, Q1] format
   9. Add the theme's fonts (served by the website), drop the local @import, open external links in a new tab,
      let wide display formulas scroll sideways
+ 10. Link the website's shared /css/notes-overrides.css last, so rules for every article
+     (mobile heading sizes, footnote markers) live in one file on the site
 
 Usage: python convert-to-note-html.py input.html [output.html] [--md source.md]
   Typora (Preferences > Export > HTML > run command after export):
@@ -27,6 +29,9 @@ import glob
 # pointed at FONT_URL, where the website keeps the same font folders (assets/fonts/<Font>/).
 NOTE_CSS = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'themes', 'note.css')
 FONT_URL = os.environ.get('NOTE_FONT_URL', '/assets/fonts/')
+# The website's stylesheet for all articles. It is linked after every other style, so it
+# wins; the site's scripts/bump-assets.sh stamps its ?v= at release.
+OVERRIDES_URL = os.environ.get('NOTE_OVERRIDES_URL', '/css/notes-overrides.css')
 
 
 def find_md(html_path, md_path=None):
@@ -86,6 +91,10 @@ def fix_html(input_path, output_path=None, md_path=None):
     html = re.sub(r'\s*<style id="style-fix">.*?</style>', '', html, flags=re.DOTALL)
     html = re.sub(r'\s*<style id="style-fonts">.*?</style>', '', html, flags=re.DOTALL)
     html = re.sub(r'\s*<script>\s*document\.addEventListener.*?</script>', '', html, flags=re.DOTALL)
+    # The overrides link goes too, but its ?v= stamp is kept for the new one
+    m = re.search(r'<link id="notes-overrides"[^>]*?(\?v=[0-9.]+)?"\s*/?>', html)
+    overrides_ver = (m.group(1) or '') if m else ''
+    html = re.sub(r'\s*<link id="notes-overrides"[^>]*>', '', html)
     html = re.sub(r'\s*</head>', '\n</head>', html, count=1)
     html = re.sub(r' data-tooltip="[^"]*"', '', html)
 
@@ -167,7 +176,8 @@ def fix_html(input_path, output_path=None, md_path=None):
     html = re.sub(r'@import url\(["\']?file://[^)]*\);?\n?', '', html)
     # The article is shown in an iframe, and most sites refuse to load inside one
     html = re.sub(r"<a href='(https?://[^']*)'(?![^>]*target=)", r"<a href='\1' target='_blank' rel='noopener'", html)
-    html = html.replace('</head>', _get_font_faces() + _get_css_js() + '\n</head>')
+    overrides = f'\n<link id="notes-overrides" rel="stylesheet" href="{OVERRIDES_URL}{overrides_ver}"/>'
+    html = html.replace('</head>', _get_font_faces() + _get_css_js() + overrides + '\n</head>')
 
     # --- 6. Remove CSS ::before/::after brackets (script adds them in HTML) ---
     html = re.sub(r"sup\.md-footnote::before\s*\{[^}]*\}", '', html)

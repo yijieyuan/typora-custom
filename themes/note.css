@@ -171,9 +171,16 @@ body.typora-export {
     box-sizing: border-box;
 }
 
-/* 公式：Literata 字面大，MathJax 按 em 定字号，放大以与正文协调 */
+/* 公式：MathJax 的 SVG 按 ex 定大小，已跟随正文字体。行间放大到 120%，行内 108% */
 #write mjx-container {
     font-size: 120% !important;
+}
+
+/* 行内公式关掉 Typora 内置的 zoom: .95：WebKit 缩两次，Chromium 只缩一次，
+   不同系统的 Typora 大小会差 5%。导出的 HTML 不受它影响，这里写死后三处一致 */
+#write mjx-container:not([display]) {
+    font-size: 108% !important;
+    zoom: 1;
 }
 
 content {
